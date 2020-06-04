@@ -27,6 +27,13 @@ Before using this code, please initialize terraform.
 terraform init
 ```
 
+You also need to download Ansible roles.
+
+```
+cd ansible
+ansible-galaxy install -r roles/requirements.yml -f
+```
+
 ## Plan
 
 To see what Terraform would do, run `plan`.
@@ -42,6 +49,16 @@ Once you are happy with what Terraform want to change, run `apply`.
 ```
 terraform apply -var-file="do.tfvars"
 ```
+
+## Provision
+
+After all machines are created, it's time to provision them using the superior Ansible.
+
+```
+cd ansible
+ansible-playbook playbook.yml
+```
+
 
 ## Destroy
 

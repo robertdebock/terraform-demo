@@ -1,0 +1,20 @@
+---
+- name: Converge
+  hosts: all
+  become: yes
+  gather_facts: yes
+
+  roles:
+    - role: robertdebock.bootstrap
+    - role: robertdebock.epel
+    - role: robertdebock.buildtools
+    - role: robertdebock.python_pip
+    - role: robertdebock.openssl
+    - role: robertdebock.httpd
+
+  post_tasks:
+    - name: place an index.hyml
+      copy:
+        content: "Hello from {{ ansible_fqdn }}"
+        dest: /var/www/html/index.html
+        mode: "0644"

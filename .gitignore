@@ -2,3 +2,5 @@
 terraform.tfstate
 terraform.tfstate.backup
 .terraform
+ansible/roles/*
+!ansible/roles/requirements.yml
