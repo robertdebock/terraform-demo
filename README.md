@@ -14,7 +14,7 @@ This repository has a few branches to step through a couple of stages.
 
 Before you can order resources at digital ocean, please place your personal file:
 
-do.tfvars
+terraform.tfvars
 ```
 do_token = "A-long-hexadeciamal-string-that-you-need-to-generate-at-digitalocean"
 ```
@@ -32,7 +32,7 @@ terraform init
 To see what Terraform would do, run `plan`.
 
 ```
-terraform plan -var-file="do.tfvars"
+terraform plan
 ```
 
 ## Apply
@@ -40,7 +40,7 @@ terraform plan -var-file="do.tfvars"
 Once you are happy with what Terraform want to change, run `apply`.
 
 ```
-terraform apply -var-file="do.tfvars"
+terraform apply
 ```
 
 ## Destroy
@@ -48,5 +48,5 @@ terraform apply -var-file="do.tfvars"
 Clean up the resources Terraform created.
 
 ```
-terraform destroy -var-file="do.tfvars"
+terraform destroy
 ```
