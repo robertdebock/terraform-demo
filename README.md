@@ -14,8 +14,9 @@ This repository has a few branches to step through a couple of stages.
 
 Before you can order resources at digital ocean, please place your personal file:
 
-terraform.tfvars
-```
+`terraform.tfvars`:
+
+```text
 do_token = "A-long-hexadeciamal-string-that-you-need-to-generate-at-digitalocean"
 ```
 
@@ -23,13 +24,13 @@ do_token = "A-long-hexadeciamal-string-that-you-need-to-generate-at-digitalocean
 
 Before using this code, please initialize terraform.
 
-```
+```shell
 terraform init
 ```
 
 You also need to download Ansible roles.
 
-```
+```shell
 cd ansible
 ansible-galaxy install -r roles/requirements.yml -f
 ```
@@ -38,7 +39,7 @@ ansible-galaxy install -r roles/requirements.yml -f
 
 To see what Terraform would do, run `plan`.
 
-```
+```shell
 terraform plan
 ```
 
@@ -46,7 +47,7 @@ terraform plan
 
 Once you are happy with what Terraform want to change, run `apply`.
 
-```
+```shell
 terraform apply
 ```
 
@@ -54,7 +55,7 @@ terraform apply
 
 After all machines are created, it's time to provision them using the superior Ansible.
 
-```
+```shell
 cd ansible
 ansible-playbook playbook.yml
 ```
@@ -64,6 +65,6 @@ ansible-playbook playbook.yml
 
 Clean up the resources Terraform created.
 
-```
+```shell
 terraform destroy
 ```
