@@ -12,6 +12,7 @@ This repository has a few branches to step through a couple of stages.
 
 ## Add credentials
 
+
 Before you can order resources at digital ocean, please place your personal file:
 
 `terraform.tfvars`:
