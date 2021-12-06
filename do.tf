@@ -1,28 +1,30 @@
-variable "do_token" {}
+terraform {
+  required_providers {
+    digitalocean = {
+      source = "digitalocean/digitalocean"
+      version = "2.16.0"
+    }
+  }
+}
 
 provider "digitalocean" {
   token = var.do_token
 }
 
-resource "digitalocean_ssh_key" "example" {
-  name       = "example"
-  public_key = file("id_rsa.pub")
+variable "do_token" {}
+
+resource "digitalocean_ssh_key" "default" {
+  name       = "Terraform demo"
+  public_key = file("/Users/robertdb/.ssh/id_rsa.pub")
 }
 
-resource "digitalocean_droplet" "web-1" {
-  image  = "fedora-32-x64"
+resource "digitalocean_droplet" "web" {
+  count  = 2
+  image  = "fedora-35-x64"
   name   = "web-1"
   region = "ams3"
   size   = "s-1vcpu-1gb"
-  ssh_keys = [digitalocean_ssh_key.example.fingerprint]
-}
-
-resource "digitalocean_droplet" "web-2" {
-  image  = "fedora-32-x64"
-  name   = "web-2"
-  region = "ams3"
-  size   = "s-1vcpu-1gb"
-  ssh_keys = [digitalocean_ssh_key.example.fingerprint]
+  ssh_keys = [digitalocean_ssh_key.default.fingerprint]
 }
 
 resource "digitalocean_loadbalancer" "web" {
@@ -33,7 +35,7 @@ resource "digitalocean_loadbalancer" "web" {
     entry_port     = 80
     entry_protocol = "http"
 
-    target_port     = 80 
+    target_port     = 80
     target_protocol = "http"
   }
 
@@ -50,5 +52,9 @@ resource "digitalocean_loadbalancer" "web" {
     protocol = "tcp"
   }
 
-  droplet_ids = [digitalocean_droplet.web-1.id, digitalocean_droplet.web-2.id,]
+  droplet_ids = [digitalocean_droplet.web.*.id]
+}
+
+output "name" {
+  value = digitalocean_droplet.web.*.ipv4_address
 }
