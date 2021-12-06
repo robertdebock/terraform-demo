@@ -18,17 +18,10 @@ resource "digitalocean_ssh_key" "default" {
   public_key = file("/Users/robertdb/.ssh/id_rsa.pub")
 }
 
-resource "digitalocean_droplet" "web-1" {
+resource "digitalocean_droplet" "web" {
+  count  = 2
   image  = "fedora-35-x64"
   name   = "web-1"
-  region = "ams3"
-  size   = "s-1vcpu-1gb"
-  ssh_keys = [digitalocean_ssh_key.default.fingerprint]
-}
-
-resource "digitalocean_droplet" "web-2" {
-  image  = "fedora-35-x64"
-  name   = "web-2"
   region = "ams3"
   size   = "s-1vcpu-1gb"
   ssh_keys = [digitalocean_ssh_key.default.fingerprint]
@@ -51,5 +44,5 @@ resource "digitalocean_loadbalancer" "web" {
     protocol = "tcp"
   }
 
-  droplet_ids = [digitalocean_droplet.web-1.id, digitalocean_droplet.web-2.id,]
+  droplet_ids = digitalocean_droplet.web.*.id
 }
