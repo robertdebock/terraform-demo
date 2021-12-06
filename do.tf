@@ -48,11 +48,12 @@ resource "digitalocean_loadbalancer" "web" {
   }
 
   healthcheck {
-    port     = 22
-    protocol = "tcp"
+    port     = 80
+    protocol = "http"
+    path     = "/"
   }
 
-  droplet_ids = [digitalocean_droplet.web.*.id]
+  droplet_ids = digitalocean_droplet.web.*.id
 }
 
 output "name" {
