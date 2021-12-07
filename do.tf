@@ -19,9 +19,9 @@ resource "digitalocean_ssh_key" "default" {
 }
 
 resource "digitalocean_droplet" "web" {
-  count  = 2
+  count  = 3
   image  = "fedora-35-x64"
-  name   = "web-1"
+  name   = "web-${count.index}"
   region = "ams3"
   size   = "s-1vcpu-1gb"
   ssh_keys = [digitalocean_ssh_key.default.fingerprint]
@@ -39,23 +39,10 @@ resource "digitalocean_loadbalancer" "web" {
     target_protocol = "http"
   }
 
-  forwarding_rule {
-    entry_port     = 443
-    entry_protocol = "tcp"
-
-    target_port     = 443
-    target_protocol = "tcp"
-  }
-
   healthcheck {
-    port     = 80
-    protocol = "http"
-    path     = "/"
+    port     = 22
+    protocol = "tcp"
   }
 
   droplet_ids = digitalocean_droplet.web.*.id
-}
-
-output "name" {
-  value = digitalocean_droplet.web.*.ipv4_address
 }
