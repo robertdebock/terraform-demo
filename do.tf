@@ -19,7 +19,7 @@ resource "digitalocean_ssh_key" "default" {
 }
 
 resource "digitalocean_droplet" "web" {
-  count  = 2
+  count  = 3
   image  = "fedora-35-x64"
   name   = "web-1"
   region = "ams3"
